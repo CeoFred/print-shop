@@ -1,13 +1,20 @@
 <?php
        require_once 'serverscripts\db_connect.php';
+       error_reporting(E_ALL);
+       ini_set('display_errors', '1');
+       
+    
+       $category_id = isset($_GET['id'])  ?  $_GET['id'] : null;
 
-        error_reporting(E_ALL);
-        ini_set('display_errors', '1');
-        $category_id = isset($_GET['id'])  ?  $_GET['id'] : null;
-        
        if($category_id==null){
-           header('Location: index.php');
-       }
+        header('Location: index.php');
+         }
+
+
+        
+        $db = mysqli_connect("localhost", "root", "", "dezzy") or die(mysqli_error($db));
+
+
  ?>
 
 <!DOCTYPE html>
@@ -32,7 +39,6 @@
          <div class="container">
     <?php
 
-            $db = mysqli_connect("localhost", "root", "", "dezzy") or die(mysqli_error($db));
 
          $sql = "SELECT * FROM product_table WHERE category_id = $category_id";
          $data = mysqli_query($db, $sql);
@@ -63,9 +69,9 @@
                          
 						<div class="card">
 							<img src="dashboard/<?=$row['thumbnail'];?>" alt="<?=$row['pname'];?>" style="width:100%">
-							    <h4><?php echo $row['pname']; ?></h4>
-							    <p class="price">N <?php echo $formatted_price ; ?></p>
-                                <button>Add to Cart</button>
+							    <h4><?=$row['pname']; ?></h4>
+							    <p class="price">N <?=$formatted_price ; ?></p>
+                                <a href="order.php?id=<?=$row['id']?>" class="btn btn-primary">Order Now</a>
                                
                         </div>   
                 </div>
